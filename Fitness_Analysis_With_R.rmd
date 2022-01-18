@@ -2,7 +2,9 @@
 title: "Bellabeat - Fitness Data Analysis in R"
 author: "Tracy Nguyen"
 date: "1/4/2022"
-output: html_document
+output:
+  md_document:
+    variant: markdown_github
 ---
 
 # About The Company
