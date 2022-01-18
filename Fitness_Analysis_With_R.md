@@ -34,7 +34,7 @@ install.packages (c("tidyverse", "lubridate", "reshape2", "scales"), repos = "ht
 
     ## 
     ## The downloaded binary packages are in
-    ##  /var/folders/vy/q5vptsyx73q7364_by3bgs1h0000gn/T//RtmplYEml6/downloaded_packages
+    ##  /var/folders/vy/q5vptsyx73q7364_by3bgs1h0000gn/T//RtmplxwCsC/downloaded_packages
 
 ``` r
 library(tidyverse)
@@ -257,7 +257,7 @@ activities, and 24 distinct users log their sleep patterns between April
 
 ### Cleaning and Processing Data
 
-1. All date and time observations include the time of 12:00:00 AM. This
+1.  All date and time observations include the time of 12:00:00 AM. This
     data does not help with analysis; rather, it creates noise and makes
     it more difficult to read. Therefore, we will parse out the
     redundant time stamp of 12:00:00AM.
@@ -268,7 +268,7 @@ daySleep$SleepDay <- mdy_hms(daySleep$SleepDay)
 dayActivity$ActivityDate <- mdy(dayActivity$ActivityDate)
 ```
 
-2. There are a few observations with sedentary minutes to be 1440,
+1.  1.  There are a few observations with sedentary minutes to be 1440,
         which means the users were idle for the entire 24 hours of the
         day. This has a very low possibility of occurrence, unless the
         user is gravely ill. Keeping the data will yield inaccurate
@@ -284,7 +284,7 @@ dayActivity_new <- dayActivity %>%
   filter(SedentaryMinutes<=1435) 
 ```
 
-3. With that same judgment, I will also filter out all observations
+1.  1.  With that same judgment, I will also filter out all observations
         with 0 (zero) TotalActiveMins. Again, taking steps to take care
         of personal things would trigger the active minutes counter,
         hence an observation of 0 (zero) active minutes has a very low
@@ -295,7 +295,7 @@ dayActivity_new <- dayActivity_new %>%
   filter((VeryActiveMinutes + FairlyActiveMinutes + LightlyActiveMinutes)>1)
 ```
 
-4. Create new column “TotalActiveMins” and verify if the sum of
+1.  1.  Create new column “TotalActiveMins” and verify if the sum of
         “TotalActiveMins” and “SedentaryMins” is 1440. 1440 is the total
         minutes in a 24 hour period.
 
@@ -305,7 +305,7 @@ dayActivity_new$TotalActiveMins <- dayActivity_new$VeryActiveMinutes + dayActivi
 dayActivity_new$TotalActive_plus_Sedentary <- dayActivity_new$TotalActiveMins + dayActivity_new$SedentaryMinutes
 ```
 
-5. After sorting TotalActive_plus_Sedentary, we find that majority
+1.  1.  After sorting TotalActive_plus_Sedentary, we find that majority
         of the observations did not include an entire day’s worth of
         activities. Find out how many observations did not include an
         entire day of activities.
@@ -324,7 +324,7 @@ dayActivity_new %>%
 391 of 849, or 46%, observations include an entire day’s worth of
 activity log. 458 observations, or 54%, did not.
 
-6. Filter out observations that has TotalActive_plus_Sedentary \< 1200
+1.  Filter out observations that has TotalActive_plus_Sedentary \< 1200
     or 20 hours of logged activities.
 
 ``` r
@@ -343,7 +343,7 @@ n_distinct(pivot_Loggers$Id)
 We are down to 446 observations, with 30 distinct users. Adequate amount
 of data to use for analysis.
 
-7. Find the average of total sedentary minutes, SedentaryMinutes, and
+1.  Find the average of total sedentary minutes, SedentaryMinutes, and
     total active minutes, TotalActiveMins, and group by User.
 
 ``` r
@@ -361,7 +361,7 @@ pivot_AVG_ActSed_SELECT <- pivot_AVG_active_sedentary %>%
 Note: Minutes in daySleep$TotalTimeInBed is included, or a part of, the
 SedentaryMinutes.
 
-8. Find the average total minutes each user spends asleep and idle, in
+1.  Find the average total minutes each user spends asleep and idle, in
     bed but not asleep.
 
 ``` r
@@ -382,7 +382,7 @@ User 1844505072 is idle in bed a lot longer than the other users. It
 raises a red flag. After checking the observations in data frame
 daySleep, it appears to be correct and no other action is needed.
 
-9. Create a new data frame that merge the average minutes active,
+1.  1.  Create a new data frame that merge the average minutes active,
         asleep, and idle in bed, join by “Id”.
 
 ``` r
@@ -393,7 +393,7 @@ inner_join(pivot_AVG_Bed_SELECT)
 
     ## Joining, by = "Id"
 
-10. Include a new column, SedentaryDifference, to express the
+1.  1.  Include a new column, SedentaryDifference, to express the
         difference between sedentary minutes and total minutes asleep
         and idle in bed.
 
@@ -401,7 +401,7 @@ inner_join(pivot_AVG_Bed_SELECT)
 final_data$AvgSedentaryDifference <- final_data$AvgSedentaryMins - final_data$AvgTotalMinsAsleep - final_data$AvgTotalMinsIdleInBed
 ```
 
-11. Select data to graph.
+1.  Select data to graph.
 
 ``` r
 final_data_graph <- final_data %>%
@@ -409,7 +409,7 @@ final_data_graph <- final_data %>%
   select(Id, AvgActiveMins, AvgTotalMinsAsleep, AvgTotalMinsIdleInBed, AvgSedentaryDifference)
 ```
 
-12. Then group top third of active users in category “Gold”, middle
+1.  Then group top third of active users in category “Gold”, middle
     third as “Silver”, and least active as “Bronze”. Create new column
     for Category - Gold/Silver/Bronze.
 
@@ -426,7 +426,7 @@ n_distinct(final_data_graph$Id)/3
 final_data_graph$category <- factor(rep(c("Gold","Silver","Bronze"),each=7),levels=c("Gold","Silver","Bronze"))
 ```
 
-13. Get the average total sleep, idle minutes in bed, active minutes,
+1.  Get the average total sleep, idle minutes in bed, active minutes,
     and sedentary minutes. Group by Category.
 
 ``` r
@@ -438,7 +438,7 @@ pie_data <- final_data_graph %>%
             `Idle Mins` = mean(AvgTotalMinsIdleInBed))
 ```
 
-14. Create pie chart.
+1.  Create pie chart.
 
 ``` r
 pie_long <- pie_data %>% 
