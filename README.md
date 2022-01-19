@@ -30,7 +30,7 @@ To get started, open RStudio and download the aforementioned dataset in [Kaggle]
 
 ``` r
 # Install packages
-install.packages (c("tidyverse", "lubridate", "reshape2", "scales"), repos = "http://cran.us.r-project.org")
+install.packages (c("tidyverse", "lubridate", "scales"), repos = "http://cran.us.r-project.org")
 ```
 
     ## 
@@ -64,18 +64,6 @@ library(lubridate)
     ## The following objects are masked from 'package:base':
     ## 
     ##     date, intersect, setdiff, union
-
-``` r
-# Load package, reshape(2)
-library(reshape2) 
-```
-
-    ## 
-    ## Attaching package: 'reshape2'
-
-    ## The following object is masked from 'package:tidyr':
-    ## 
-    ##     smiths
 
 ``` r
 # Load package, scales

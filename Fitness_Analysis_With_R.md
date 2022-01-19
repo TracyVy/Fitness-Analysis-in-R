@@ -36,7 +36,7 @@ install.packages (c("tidyverse", "lubridate", "scales"), repos = "http://cran.us
 
     ## 
     ## The downloaded binary packages are in
-    ##  /var/folders/vy/q5vptsyx73q7364_by3bgs1h0000gn/T//RtmpByteci/downloaded_packages
+    ##  /var/folders/vy/q5vptsyx73q7364_by3bgs1h0000gn/T//RtmpoJJqWz/downloaded_packages
 
 ``` r
 #load packages
@@ -66,7 +66,6 @@ library(lubridate)
     ##     date, intersect, setdiff, union
 
 ``` r
-# library(reshape2) 
 library(scales)
 ```
 
