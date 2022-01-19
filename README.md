@@ -282,7 +282,7 @@ dayActivity$ActivityDate <- mdy(dayActivity$ActivityDate)
 2. There are a few observations with sedentary minutes to be 1440,
         which means the users were idle for the entire 24 hours of the
         day. This has a very low possibility of occurrence, unless the
-        user is gravely ill. Keeping the data will yield inaccurate
+        user is gravely ill. Keeping the data will yield inaccurate
         insights.
 
 I’m using sound judgment to filter out all observations with
