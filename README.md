@@ -26,7 +26,14 @@ this coming soon to a GitHub near you. :-)
 
 To get started, open RStudio and download the aforementioned dataset in [Kaggle](https://www.kaggle.com/arashnic/fitbit).
 
-### Install and Load Packages
+## Table of Contents
+1. [Install and Load Pacakges](#Install and Load Packages)
+2. [Load CSV file](#Load CSV file)
+3. [Exploring data](#Exploring data)
+4. [Cleaning and Processing Data](#Cleaning and Processing Data)
+5. [Summary of Analysis](#Summary of Analysis)
+
+## Install and Load Packages
 
 ``` r
 # Install packages
@@ -81,7 +88,7 @@ library(scales)
     ## 
     ##     col_factor
 
-### Load CSV file
+## Load CSV file
 
 Note: Make sure the files needed are in the same working directory.
 
@@ -117,7 +124,7 @@ daySleep <- read_csv("sleepDay.csv")
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
-### Exploring data
+## Exploring data
 
 Let’s check out what kind of data these tables show.
 
@@ -258,7 +265,7 @@ Based on this, we can see that there are 33 distinct users who log their
 activities, and 24 distinct users log their sleep patterns between April
 12th - May 12th, 2016.
 
-### Cleaning and Processing Data
+## Cleaning and Processing Data
 
 1. All date and time observations include the time of 12:00:00 AM. This
     data does not help with analysis; rather, it creates noise and makes
@@ -352,8 +359,7 @@ n_distinct(pivot_Loggers$Id)
 
     ## [1] 30
 
-We are down to 446 observations, with 30 distinct users. Adequate amount
-of data to use for analysis.
+We are down to 30 distinct users. Adequate amount of data to use for analysis.
 
 7. Find the average of total sedentary minutes, SedentaryMinutes, and
     total active minutes, TotalActiveMins, and group by User.
@@ -511,7 +517,7 @@ ggplot(pie_long %>%
 
 ![](Fitness_Analysis_With_R_files/figure-markdown_github/pie%20charts,%20group%20by%203%20categories:%20Gold,%20Silver,%20Bronze-3.png)
 
-### Summary of Analysis
+## Summary of Analysis
 
 #### A Day’s Glance -
 
