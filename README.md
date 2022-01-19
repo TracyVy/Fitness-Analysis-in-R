@@ -550,14 +550,14 @@ wake up and will check their smartphones.
 
 #### Strategy suggestions for Stakeholders -
 
-With the assumption that majority of the users check the smartphone
-during their idle time in bed, Bellabeat should send out health tips
-notifications to users so they can plan the day ahead. The gold users
+To get the users to improve their lifestyle and have a more balanced lifestyle, we suggest Bellabeat implement the "Bootcamp" real-time notification.
+
+With the assumption that majority of the users check their smartphones
+during their idle time in bed to plan for the next day, Bellabeat should send out "Bootcamp" health tips notifications to users so they can plan accordingly. 
+
+The notifications should be customized according to the user's category. The gold users
 should receive tips on how to relax and sleep longer, while the bronze
 users should get motivational tips to get the body moving.
 
-However, it is advised to collect additional data to strategize a better marketing campaign. For instance, collecting data to see if users do in fact check their smartphones in bed will be helpful. Also, the actual time when users go to sleep and
-idle time would yield a more successful outcome as well. There are users who prefer to
-check their smartphone before they go to sleep and plan ahead for the next
-day, while some users check the smartphone the morning of and plan for
-the day ahead. It is never a bad choice to be considerate.
+However, additional data is necessary to yield a more successful outcome. For instance, we need to collect data to see if users do in fact check their smartphones when idle in bed. Additionally, the time trend of when user is idle in bed would let us know when is the optimal time to push notifications. Some may have a hard time sleeping, therefore checks the phone before going to sleep. Some may have a hard time waking up, therefore checks the phone the morning after. 
+
