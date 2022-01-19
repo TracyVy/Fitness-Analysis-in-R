@@ -12,21 +12,28 @@ output:
 Founded by Urska Srsen and Sando Mur, Bella beat is a high-tech company that manufactures health-focused smart products. Its goal is to inform and inspire women around the world to live healthier lives.
 
 
-### Analyze Questions
+#### Analyze Questions
 Analyze smart device usage data to gain insights into how consumers use non-Bellabeat smart devices.
 
 1. What are some trends in smart device usage?
 2. How could these trends apply to Bellabeat customers?
 3. How could these trends help influence Bellabeat marketing strategy?
 
-### Dataset
+#### Dataset
 This [FitBit dataset](https://www.kaggle.com/arashnic/fitbit) was used to for analysis. This dataset includes a sample set of eligible and consented users logging in their activities between April 12th to May 12th of 2016.
 
 I will be conducting analysis in R and using the ggplot for visualization. (Please look forward to my SQL and Tableau version of this coming soon to a GitHub near you. :-)
 
 To get started, open RStudio and download the aforementioned dataset in [Kaggle](https://www.kaggle.com/arashnic/fitbit).
 
-### Install and Load Packages
+## Table of Contents
+1. [Install and Load Pacakges](#Install and Load Packages)
+2. [Load CSV file](#Load CSV file)
+3. [Exploring data](#Exploring data)
+4. [Cleaning and Processing Data](#Cleaning and Processing Data)
+5. [Summary of Analysis](#Summary of Analysis)
+
+#### Install and Load Packages
 ```{r install packages}
 #install packages
 install.packages (c("tidyverse", "lubridate", "scales"), repos = "http://cran.us.r-project.org")
@@ -36,7 +43,7 @@ library(lubridate)
 library(scales)
 ```
 
-### Load CSV file. 
+#### Load CSV file. 
 Note: Make sure the files needed are in the same working directory. 
 
 ```{r load file}
@@ -44,7 +51,7 @@ dayActivity <- read_csv("dailyActivity.csv")
 daySleep <- read_csv("sleepDay.csv")
 ```
 
-### Exploring data
+#### Exploring data
 Let's check out what kind of data these tables show.
 
 ```{r get column names}
@@ -68,7 +75,7 @@ n_distinct(daySleep$Id)
 ```
 Based on this, we can see that there are 33 distinct users who log their activities, and 24 distinct users log their sleep patterns between April 12th - May 12th, 2016.
 
-### Cleaning and Processing Data
+#### Cleaning and Processing Data
 1. All date and time observations include the time of 12:00:00 AM. 
 This data does not help with analysis; rather, it creates noise and makes it more difficult to read. Therefore, we will parse out the redundant time stamp of 12:00:00AM. 
 
@@ -230,9 +237,9 @@ ggplot(pie_long %>%
 
 ```
 
-### Summary of Analysis
+#### Summary of Analysis
 
-#### A Day's Glance -
+##### A Day's Glance -
 
 *GOLD* - 5 hours 13 mins - active, 5 hours 11 mins - asleep, 44 mins - idle in bed, 12 hours 19 mins - sedentary.
 
@@ -246,7 +253,15 @@ Although the Gold users' active minutes are impressive, their sleep patterns are
 
 Regardless of which category the users fall in, there are ways to improve their lifestyle. One commonality that all users have is the amount of idle time the users spend in bed - between 22-65 minutes. Some users may have trouble going to sleep or getting out of bed when they wake up and will check their smartphones.  
 
-#### Strategy suggestions for Stakeholders -
-With the assumption that majority of the users check the smartphone during their idle time in bed, Bellabeat should send out health tips notifications to users so they can plan the day ahead. The gold users should receive tips on how to relax and sleep longer, while the bronze users should get motivational tips to get the body moving. 
+##### Strategy suggestions for Stakeholders -
+With the assumption that majority of the users check the smartphone
+during their idle time in bed, Bellabeat should send out health tips
+notifications to users so they can plan the day ahead. The gold users
+should receive tips on how to relax and sleep longer, while the bronze
+users should get motivational tips to get the body moving.
 
-However, additional data of the actual time the users go to sleep and idle time would yield a more successful outcome. Some users prefer to check the smartphone before they go to sleep to plan ahead for the next day, while some users check the smartphone the morning of and plan for the day ahead.
+However, it is advised to collect additional data to strategize a better marketing campaign. For instance, collecting data to see if users do in fact check their smartphones in bed will be helpful. Also, the actual time when users go to sleep and
+idle time would yield a more successful outcome as well. There are users who prefer to
+check their smartphone before they go to sleep and plan ahead for the next
+day, while some users check the smartphone the morning of and plan for
+the day ahead. It is never a bad choice to be considerate.
