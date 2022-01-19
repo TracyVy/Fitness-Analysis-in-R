@@ -550,7 +550,7 @@ wake up and will check their smartphones.
 
 #### Strategy suggestions for Stakeholders -
 
-To get the users to improve their lifestyle and have a more balanced lifestyle, we suggest Bellabeat implement the "Bootcamp" real-time notification.
+To get the users to improve and have a more balanced lifestyle, we suggest Bellabeat to implement the "Bootcamp" real-time notification.
 
 With the assumption that majority of the users check their smartphones
 during their idle time in bed to plan for the next day, Bellabeat should send out "Bootcamp" health tips notifications to users so they can plan accordingly. 
