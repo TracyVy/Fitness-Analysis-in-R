@@ -24,19 +24,22 @@ I will be conducting analysis in R and using the ggplot for
 visualization. (Please look forward to my SQL and Tableau version of
 this coming soon to a GitHub near you. :-)
 
-To get started, open RStudio and download the aforementioned dataset.
+To get started, open RStudio and download the aforementioned dataset in
+[Kaggle](https://www.kaggle.com/arashnic/fitbit).
 
 ### Install and Load Packages
 
 ``` r
+#install packages
 install.packages (c("tidyverse", "lubridate", "reshape2", "scales"), repos = "http://cran.us.r-project.org")
 ```
 
     ## 
     ## The downloaded binary packages are in
-    ##  /var/folders/vy/q5vptsyx73q7364_by3bgs1h0000gn/T//RtmplxwCsC/downloaded_packages
+    ##  /var/folders/vy/q5vptsyx73q7364_by3bgs1h0000gn/T//Rtmp1bFIev/downloaded_packages
 
 ``` r
+#load packages
 library(tidyverse)
 ```
 

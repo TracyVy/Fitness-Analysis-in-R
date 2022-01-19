@@ -24,11 +24,13 @@ This [FitBit dataset](https://www.kaggle.com/arashnic/fitbit) was used to for an
 
 I will be conducting analysis in R and using the ggplot for visualization. (Please look forward to my SQL and Tableau version of this coming soon to a GitHub near you. :-)
 
-To get started, open RStudio and download the aforementioned dataset.
+To get started, open RStudio and download the aforementioned dataset in [Kaggle](https://www.kaggle.com/arashnic/fitbit).
 
 ### Install and Load Packages
 ```{r install packages}
+#install packages
 install.packages (c("tidyverse", "lubridate", "reshape2", "scales"), repos = "http://cran.us.r-project.org")
+#load packages
 library(tidyverse)
 library(lubridate)
 library(reshape2) 
