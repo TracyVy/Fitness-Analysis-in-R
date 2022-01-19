@@ -27,11 +27,11 @@ this coming soon to a GitHub near you. :-)
 To get started, open RStudio and download the aforementioned dataset in [Kaggle](https://www.kaggle.com/arashnic/fitbit).
 
 ## Table of Contents
-1. [Install and Load Pacakges](#Install and Load Packages)
-2. [Load CSV file](#Load CSV file)
-3. [Exploring data](#Exploring data)
-4. [Cleaning and Processing Data](#Cleaning and Processing Data)
-5. [Summary of Analysis](#Summary of Analysis)
+1. [Install and Load Pacakges](https://github.com/TracyVy/Fitness-Analysis-in-R#Install-and-Load-Packages)
+2. [Load CSV file](https://github.com/TracyVy/Fitness-Analysis-in-R#Load-CSV-file)
+3. [Exploring data](https://github.com/TracyVy/Fitness-Analysis-in-R#Exploring-Data)
+4. [Cleaning and Processing Data](https://github.com/TracyVy/Fitness-Analysis-in-R#Cleaning-and-Processing-Data)
+5. [Summary of Analysis](https://github.com/TracyVy/Fitness-Analysis-in-R#Summary-of-Analysis)
 
 ## Install and Load Packages
 
@@ -124,7 +124,7 @@ daySleep <- read_csv("sleepDay.csv")
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
-## Exploring data
+## Exploring Data
 
 Let’s check out what kind of data these tables show.
 
