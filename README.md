@@ -1,6 +1,6 @@
 # About The Company
 
-Founded by Urska Srsen and Sando Mur, Bella beat is a high-tech company
+Founded by Urska Srsen and Sando Mur, Bellabeat is a high-tech company
 that manufactures health-focused smart products. Its goal is to inform
 and inspire women around the world to live healthier lives.
 
@@ -24,11 +24,12 @@ I will be conducting analysis in R and using the ggplot for
 visualization. (Please look forward to my SQL and Tableau version of
 this coming soon to a GitHub near you. :-)
 
-To get started, open RStudio and download the aforementioned dataset.
+To get started, open RStudio and download the aforementioned dataset in [Kaggle](https://www.kaggle.com/arashnic/fitbit).
 
 ### Install and Load Packages
 
 ``` r
+# Install packages
 install.packages (c("tidyverse", "lubridate", "reshape2", "scales"), repos = "http://cran.us.r-project.org")
 ```
 
@@ -37,6 +38,7 @@ install.packages (c("tidyverse", "lubridate", "reshape2", "scales"), repos = "ht
     ##  /var/folders/vy/q5vptsyx73q7364_by3bgs1h0000gn/T//RtmplYEml6/downloaded_packages
 
 ``` r
+# Load package, tidyverse
 library(tidyverse)
 ```
 
@@ -52,6 +54,7 @@ library(tidyverse)
     ## x dplyr::lag()    masks stats::lag()
 
 ``` r
+# Load package, lubridate
 library(lubridate)
 ```
 
@@ -63,6 +66,7 @@ library(lubridate)
     ##     date, intersect, setdiff, union
 
 ``` r
+# Load package, reshape(2)
 library(reshape2) 
 ```
 
@@ -74,6 +78,7 @@ library(reshape2)
     ##     smiths
 
 ``` r
+# Load package, scales
 library(scales)
 ```
 
@@ -88,11 +93,12 @@ library(scales)
     ## 
     ##     col_factor
 
-### Load CSV file.
+### Load CSV file
 
 Note: Make sure the files needed are in the same working directory.
 
 ``` r
+# Load csv file (first)
 dayActivity <- read_csv("dailyActivity.csv")
 ```
 
@@ -108,6 +114,7 @@ dayActivity <- read_csv("dailyActivity.csv")
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ``` r
+# Load csv file (second)
 daySleep <- read_csv("sleepDay.csv")
 ```
 
@@ -127,6 +134,7 @@ daySleep <- read_csv("sleepDay.csv")
 Let’s check out what kind of data these tables show.
 
 ``` r
+# Find column names in dayActivity csv file
 colnames(dayActivity)
 ```
 
@@ -140,6 +148,7 @@ colnames(dayActivity)
     ## [15] "Calories"
 
 ``` r
+# Find column names in daySleep csv file
 colnames(daySleep)
 ```
 
@@ -147,6 +156,7 @@ colnames(daySleep)
     ## [4] "TotalMinutesAsleep" "TotalTimeInBed"
 
 ``` r
+# Explore data structure in dayActivity csv file
 str(dayActivity)
 ```
 
@@ -187,6 +197,7 @@ str(dayActivity)
     ##  - attr(*, "problems")=<externalptr>
 
 ``` r
+# Explore data structure in daySleep csv file
 str(daySleep)
 ```
 
@@ -207,6 +218,7 @@ str(daySleep)
     ##  - attr(*, "problems")=<externalptr>
 
 ``` r
+# Explore a tibble of dayActivity
 head(dayActivity)
 ```
 
@@ -226,6 +238,7 @@ head(dayActivity)
     ## #   SedentaryMinutes <dbl>, Calories <dbl>
 
 ``` r
+# Explore a tibble of daySleep 
 head(daySleep)
 ```
 
@@ -240,12 +253,14 @@ head(daySleep)
     ## 6 1503960366 4/19/2016 12:00:…                1               304            320
 
 ``` r
+# Find how many unique users there are in dayActivity, based on Id
 n_distinct(dayActivity$Id)
 ```
 
     ## [1] 33
 
 ``` r
+# Find how many unique users there are in daySleep, based on Id
 n_distinct(daySleep$Id)
 ```
 
@@ -263,6 +278,7 @@ activities, and 24 distinct users log their sleep patterns between April
     redundant time stamp of 12:00:00AM.
 
 ``` r
+# Uniform format date to YYYY-MM-DD
 daySleep$SleepDay <- mdy_hms(daySleep$SleepDay)
 
 dayActivity$ActivityDate <- mdy(dayActivity$ActivityDate)
@@ -280,6 +296,7 @@ the possibility of the user taking 5 minutes to take care of personal
 things, even on an inactive day.
 
 ``` r
+# Filter out observations with SedentaryMinutes of more than 1435 minutes.
 dayActivity_new <- dayActivity %>%
   filter(SedentaryMinutes<=1435) 
 ```
@@ -291,6 +308,7 @@ dayActivity_new <- dayActivity %>%
         possibility of occurence.
 
 ``` r
+# Filter out observations with zero active minutes.
 dayActivity_new <- dayActivity_new %>%
   filter((VeryActiveMinutes + FairlyActiveMinutes + LightlyActiveMinutes)>1)
 ```
@@ -300,17 +318,20 @@ dayActivity_new <- dayActivity_new %>%
         minutes in a 24 hour period.
 
 ``` r
+# Create new column, TotalActiveMins, that reflects the sum of all active minutes.
 dayActivity_new$TotalActiveMins <- dayActivity_new$VeryActiveMinutes + dayActivity_new$FairlyActiveMinutes + dayActivity_new$LightlyActiveMinutes
 
+# Create new column, TotalActive_plus_Sedentary, that reflects the sum of total active minutes and sedentary minutes. Observe data.
 dayActivity_new$TotalActive_plus_Sedentary <- dayActivity_new$TotalActiveMins + dayActivity_new$SedentaryMinutes
 ```
 
-5. After sorting TotalActive_plus_Sedentary, we find that majority
+5. After sorting TotalActive_plus_Sedentary in descending order, we find that majority
         of the observations did not include an entire day’s worth of
         activities. Find out how many observations did not include an
         entire day of activities.
 
 ``` r
+# Use count() to find out how many observations did not equal to 1440, total minutes in a day.
 dayActivity_new %>%
   count(dayActivity_new$TotalActive_plus_Sedentary == 1440)
 ```
@@ -321,20 +342,23 @@ dayActivity_new %>%
     ## 1 FALSE                                                  458
     ## 2 TRUE                                                   391
 
-391 of 849, or 46%, observations include an entire day’s worth of
+Based on the data, 391 of 849, or 46%, observations include an entire day’s worth of
 activity log. 458 observations, or 54%, did not.
 
-6. Filter out observations that has TotalActive_plus_Sedentary \< 1200
-    or 20 hours of logged activities.
+6. Filter out observations that has TotalActive_plus_Sedentary < 1200 minutes
+    or 20 hours of logged activities. Our team decided that 20 hours of logged activities warrant a day's worth of activities.
 
 ``` r
+# Filter out observations with TotalActive_plus_Sedentary less than 1200 minutes.
 dayActivity_new <- dayActivity_new %>%
-  filter(TotalActive_plus_Sedentary>1200)
+  filter(TotalActive_plus_Sedentary>=1200)
 
+# Create a new data frame with Id, TotalActiveMins, SedentaryMinutes, TotalActive_plus_Sedentary, grouped by Id.
 pivot_Loggers <- dayActivity_new %>%
   group_by(Id) %>%
   select(Id, TotalActiveMins, SedentaryMinutes, TotalActive_plus_Sedentary)
 
+# Find out how many unique observations there are now.
 n_distinct(pivot_Loggers$Id)
 ```
 
@@ -347,33 +371,36 @@ of data to use for analysis.
     total active minutes, TotalActiveMins, and group by User.
 
 ``` r
+# Create new data frame, pivot_AVG_active_sedentary, with two new columns: AvgSedentaryMins and AvgActiveMins.
+
 pivot_AVG_active_sedentary <- pivot_Loggers %>%
   group_by(Id) %>%
   summarize (AvgSedentaryMins = mean(SedentaryMinutes), AvgActiveMins = mean(TotalActiveMins))
 
+# Add new column, Total_AVG_active_sedentary, that includes the sum of AvgSedentaryMins and AvgActiveMins.
 pivot_AVG_active_sedentary$Total_AVG_active_sedentary <- pivot_AVG_active_sedentary$AvgActiveMins + pivot_AVG_active_sedentary$AvgSedentaryMins
 
+# Create new data frame, pivot_AVG_ActSed_SELECT, that includes selected columns: Id, AvgSedentaryMins, and AvgActiveMins.
 pivot_AVG_ActSed_SELECT <- pivot_AVG_active_sedentary %>%
   group_by(Id) %>%
   select(Id, AvgSedentaryMins, AvgActiveMins)
 ```
-
-Note: Minutes in daySleep$TotalTimeInBed is included, or a part of, the
-SedentaryMinutes.
-
 8. Find the average total minutes each user spends asleep and idle, in
     bed but not asleep.
-
+Note: Minutes in TotalTimeInBed (daySleep) is included, or a part of, SedentaryMinutes (dayActivity).
 ``` r
+# Calculate total minutes in bed NOT asleep.
 daySleep$TotalIdleInBed <- daySleep$TotalTimeInBed - daySleep$TotalMinutesAsleep
 
+# Create new data frame, pivot_AVG_Bed, with columns AvgTotalMinsInBed, AvgTotalMinsAsleep, AvgTotalMinsIdleInBed, group by Id.
 pivot_AVG_Bed <- daySleep %>%
    group_by(Id) %>%
    summarize (AvgTotalMinsInBed = mean(TotalTimeInBed), AvgTotalMinsAsleep = mean(TotalMinutesAsleep), AvgTotalMinsIdleInBed = mean(TotalIdleInBed)) 
 
+#Create new data fram, pivot_AVG_Bed_SELECT, with selected columns: Id, AvgTotalMinsAsleep, AvgTotalMinsIdleInBed.
 pivot_AVG_Bed_SELECT <- pivot_AVG_Bed %>%
   group_by(Id) %>%
-  select(AvgTotalMinsAsleep, AvgTotalMinsIdleInBed)
+  select(Id, AvgTotalMinsAsleep, AvgTotalMinsIdleInBed)
 ```
 
     ## Adding missing grouping variables: `Id`
@@ -386,6 +413,7 @@ daySleep, it appears to be correct and no other action is needed.
         asleep, and idle in bed, join by “Id”.
 
 ``` r
+# Create new data frame, final_data, inner join by Id.
 final_data <- 
 pivot_AVG_ActSed_SELECT %>%
 inner_join(pivot_AVG_Bed_SELECT)
@@ -398,12 +426,14 @@ inner_join(pivot_AVG_Bed_SELECT)
         and idle in bed.
 
 ``` r
+# Create new column, AvgSedentaryDifference, to find the difference of sedentary time and time in bed.
 final_data$AvgSedentaryDifference <- final_data$AvgSedentaryMins - final_data$AvgTotalMinsAsleep - final_data$AvgTotalMinsIdleInBed
 ```
 
 11. Select data to graph.
 
 ``` r
+# Create new data fram with selected data to graph.
 final_data_graph <- final_data %>%
   group_by(Id) %>%
   select(Id, AvgActiveMins, AvgTotalMinsAsleep, AvgTotalMinsIdleInBed, AvgSedentaryDifference)
@@ -414,15 +444,18 @@ final_data_graph <- final_data %>%
     for Category - Gold/Silver/Bronze.
 
 ``` r
+# Arrange data with AvgActiveMins in descending order.
 final_data_graph <- final_data_graph %>% 
   arrange(desc(AvgActiveMins))
 
+# Divide unique users into 3 to evenly distribute to 3 categories.
 n_distinct(final_data_graph$Id)/3
 ```
 
     ## [1] 7
 
 ``` r
+# Create new column, category, and set Gold to first 7, second 7 to Silver, and last 7 to Bronze.
 final_data_graph$category <- factor(rep(c("Gold","Silver","Bronze"),each=7),levels=c("Gold","Silver","Bronze"))
 ```
 
@@ -430,6 +463,7 @@ final_data_graph$category <- factor(rep(c("Gold","Silver","Bronze"),each=7),leve
     and sedentary minutes. Group by Category.
 
 ``` r
+# Create date frame, pie_data, with average data grouped by category.
 pie_data <- final_data_graph %>% 
   group_by(category) %>% 
   summarize(`Active Mins`=mean(AvgActiveMins),
@@ -438,9 +472,10 @@ pie_data <- final_data_graph %>%
             `Idle Mins` = mean(AvgTotalMinsIdleInBed))
 ```
 
-14. Create pie chart.
+14. Create pie charts.
 
 ``` r
+# Create 3 pie charts, grouped by category.
 pie_long <- pie_data %>% 
   gather("type","value",-category)
 
@@ -527,8 +562,8 @@ notifications to users so they can plan the day ahead. The gold users
 should receive tips on how to relax and sleep longer, while the bronze
 users should get motivational tips to get the body moving.
 
-However, additional data of the actual time the users go to sleep and
-idle time would yield a more successful outcome. Some users prefer to
-check the smartphone before they go to sleep to plan ahead for the next
+However, it is advised to collect additional data to strategize a better marketing campaign. For instance, collecting data to see if users do in fact check their smartphones in bed will be helpful. Also, the actual time when users go to sleep and
+idle time would yield a more successful outcome as well. There are users who prefer to
+check their smartphone before they go to sleep and plan ahead for the next
 day, while some users check the smartphone the morning of and plan for
-the day ahead.
+the day ahead. It is never a bad choice to be considerate.
