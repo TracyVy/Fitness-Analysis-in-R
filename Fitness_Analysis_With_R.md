@@ -31,12 +31,12 @@ To get started, open RStudio and download the aforementioned dataset in
 
 ``` r
 #install packages
-install.packages (c("tidyverse", "lubridate", "reshape2", "scales"), repos = "http://cran.us.r-project.org")
+install.packages (c("tidyverse", "lubridate", "scales"), repos = "http://cran.us.r-project.org")
 ```
 
     ## 
     ## The downloaded binary packages are in
-    ##  /var/folders/vy/q5vptsyx73q7364_by3bgs1h0000gn/T//Rtmp1bFIev/downloaded_packages
+    ##  /var/folders/vy/q5vptsyx73q7364_by3bgs1h0000gn/T//RtmpByteci/downloaded_packages
 
 ``` r
 #load packages
@@ -66,17 +66,7 @@ library(lubridate)
     ##     date, intersect, setdiff, union
 
 ``` r
-library(reshape2) 
-```
-
-    ## 
-    ## Attaching package: 'reshape2'
-
-    ## The following object is masked from 'package:tidyr':
-    ## 
-    ##     smiths
-
-``` r
+# library(reshape2) 
 library(scales)
 ```
 
@@ -271,11 +261,10 @@ daySleep$SleepDay <- mdy_hms(daySleep$SleepDay)
 dayActivity$ActivityDate <- mdy(dayActivity$ActivityDate)
 ```
 
-1.  1.  There are a few observations with sedentary minutes to be 1440,
-        which means the users were idle for the entire 24 hours of the
-        day. This has a very low possibility of occurrence, unless the
-        user is gravely ill. Keeping the data will yield inaccurate
-        insights.
+1.  There are a few observations with sedentary minutes to be 1440,
+    which means the users were idle for the entire 24 hours of the day.
+    This has a very low possibility of occurrence, unless the user is
+    gravely ill. Keeping the data will yield inaccurate insights.
 
 I’m using sound judgment to filter out all observations with
 SedentaryMinutes of more than 1435. I’ve set the cap at 1435, allowing
@@ -287,20 +276,20 @@ dayActivity_new <- dayActivity %>%
   filter(SedentaryMinutes<=1435) 
 ```
 
-1.  1.  With that same judgment, I will also filter out all observations
-        with 0 (zero) TotalActiveMins. Again, taking steps to take care
-        of personal things would trigger the active minutes counter,
-        hence an observation of 0 (zero) active minutes has a very low
-        possibility of occurence.
+1.  With that same judgment, I will also filter out all observations
+    with 0 (zero) TotalActiveMins. Again, taking steps to take care of
+    personal things would trigger the active minutes counter, hence an
+    observation of 0 (zero) active minutes has a very low possibility of
+    occurence.
 
 ``` r
 dayActivity_new <- dayActivity_new %>%
   filter((VeryActiveMinutes + FairlyActiveMinutes + LightlyActiveMinutes)>1)
 ```
 
-1.  1.  Create new column “TotalActiveMins” and verify if the sum of
-        “TotalActiveMins” and “SedentaryMins” is 1440. 1440 is the total
-        minutes in a 24 hour period.
+1.  Create new column “TotalActiveMins” and verify if the sum of
+    “TotalActiveMins” and “SedentaryMins” is 1440. 1440 is the total
+    minutes in a 24 hour period.
 
 ``` r
 dayActivity_new$TotalActiveMins <- dayActivity_new$VeryActiveMinutes + dayActivity_new$FairlyActiveMinutes + dayActivity_new$LightlyActiveMinutes
@@ -308,10 +297,10 @@ dayActivity_new$TotalActiveMins <- dayActivity_new$VeryActiveMinutes + dayActivi
 dayActivity_new$TotalActive_plus_Sedentary <- dayActivity_new$TotalActiveMins + dayActivity_new$SedentaryMinutes
 ```
 
-1.  1.  After sorting TotalActive_plus_Sedentary, we find that majority
-        of the observations did not include an entire day’s worth of
-        activities. Find out how many observations did not include an
-        entire day of activities.
+1.  After sorting TotalActive_plus_Sedentary, we find that majority of
+    the observations did not include an entire day’s worth of
+    activities. Find out how many observations did not include an entire
+    day of activities.
 
 ``` r
 dayActivity_new %>%
@@ -332,7 +321,7 @@ activity log. 458 observations, or 54%, did not.
 
 ``` r
 dayActivity_new <- dayActivity_new %>%
-  filter(TotalActive_plus_Sedentary>1200)
+  filter(TotalActive_plus_Sedentary>=1200)
 
 pivot_Loggers <- dayActivity_new %>%
   group_by(Id) %>%
@@ -343,8 +332,8 @@ n_distinct(pivot_Loggers$Id)
 
     ## [1] 30
 
-We are down to 446 observations, with 30 distinct users. Adequate amount
-of data to use for analysis.
+We are down to 30 distinct users. Adequate amount of data to use for
+analysis.
 
 1.  Find the average of total sedentary minutes, SedentaryMinutes, and
     total active minutes, TotalActiveMins, and group by User.
@@ -376,17 +365,15 @@ pivot_AVG_Bed <- daySleep %>%
 
 pivot_AVG_Bed_SELECT <- pivot_AVG_Bed %>%
   group_by(Id) %>%
-  select(AvgTotalMinsAsleep, AvgTotalMinsIdleInBed)
+  select(Id, AvgTotalMinsAsleep, AvgTotalMinsIdleInBed)
 ```
-
-    ## Adding missing grouping variables: `Id`
 
 User 1844505072 is idle in bed a lot longer than the other users. It
 raises a red flag. After checking the observations in data frame
 daySleep, it appears to be correct and no other action is needed.
 
-1.  1.  Create a new data frame that merge the average minutes active,
-        asleep, and idle in bed, join by “Id”.
+1.  Create a new data frame that merge the average minutes active,
+    asleep, and idle in bed, join by “Id”.
 
 ``` r
 final_data <- 
@@ -396,9 +383,8 @@ inner_join(pivot_AVG_Bed_SELECT)
 
     ## Joining, by = "Id"
 
-1.  1.  Include a new column, SedentaryDifference, to express the
-        difference between sedentary minutes and total minutes asleep
-        and idle in bed.
+1.  Include a new column, SedentaryDifference, to express the difference
+    between sedentary minutes and total minutes asleep and idle in bed.
 
 ``` r
 final_data$AvgSedentaryDifference <- final_data$AvgSedentaryMins - final_data$AvgTotalMinsAsleep - final_data$AvgTotalMinsIdleInBed
